@@ -21,7 +21,7 @@ export class CalculatorComponent {
   speed: number = 0;
 
   calculateStats() {
-    this.hp = Math.floor(this.baseHP / 10 + 20);
+    this.hp = Math.floor((this.baseHP / 10) * 2 + 20);
     this.attack = Math.floor(this.baseAttack / 10);
     this.specialAttack = Math.floor(this.baseSpecialAttack / 10);
     this.defense = Math.floor(this.baseDefense / 10);
