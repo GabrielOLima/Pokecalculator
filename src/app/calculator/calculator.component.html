@@ -1,42 +1,81 @@
 <h2>Calculator</h2>
 
-<div class="form-group">
-  <label for="hp">HP:</label>
-  <input [(ngModel)]="baseHP" id="hp" class="form-control" type="number">
-</div>
+<div class="main-calculator"> 
+  <div class="form-group">
+    <label for="hp">HP:</label>
+    <input [(ngModel)]="baseHP" id="hp" class="form-control" type="number">
+  </div>
+  <div class="form-group">
+    <label for="attack">Attack:</label>
+    <input [(ngModel)]="baseAttack" id="attack" class="form-control" type="number">
+  </div>
+  <div class="form-group">
+    <label for="specialAttack">Special Attack:</label>
+    <input [(ngModel)]="baseSpecialAttack" id="specialAttack" class="form-control" type="number">
+  </div>
+  <div class="form-group">
+    <label for="defense">Defense:</label>
+    <input [(ngModel)]="baseDefense" id="defense" class="form-control" type="number">
+  </div>
+  <div class="form-group">
+    <label for="specialDefense">Special Defense:</label>
+    <input [(ngModel)]="baseSpecialDefense" id="specialDefense" class="form-control" type="number">
+  </div>
+  <div class="form-group">
+    <label for="speed">Speed:</label>
+    <input [(ngModel)]="baseSpeed" id="speed" class="form-control" type="number">
+  </div>
 
-<div class="form-group">
-  <label for="attack">Attack:</label>
-  <input [(ngModel)]="baseAttack" id="attack" class="form-control" type="number">
-</div>
+  <button (click)="calculateStats()">Calculate</button>
 
-<div class="form-group">
-  <label for="specialAttack">Special Attack:</label>
-  <input [(ngModel)]="baseSpecialAttack" id="specialAttack" class="form-control" type="number">
-</div>
+  <div class="form-group">
+    <label for="property">Select a property:</label>
+    <select [(ngModel)]="selectedProperty" id="property" class="form-control">
+      <option *ngFor="let property of properties" [value]="property">{{property}}</option>
+    </select>
+  </div>
 
-<div class="form-group">
-  <label for="defense">Defense:</label>
-  <input [(ngModel)]="baseDefense" id="defense" class="form-control" type="number">
-</div>
+  
+  <ng-container *ngIf="selectedProperty == 'attack' || selectedProperty == 'specialAttack'">
+    <div class="form-group">
+      <label for="property">Select a modifier:</label>
+      <select [(ngModel)]="selectedModifier" id="modifier" class="form-control">
+        <option *ngFor="let modifier of modifiers" [value]="modifier">{{modifier}}</option>
+      </select>
+    </div>
+    <!-- <div class="form-group">
+      <label for="property">Select the move's effectiveness:</label>
+      <select [(ngModel)]="selectedEffectiveness" id="effectiveness" class="form-control">
+        <option *ngFor="let effective of effectiveness" [value]="effective">{{effective}}</option>
+      </select>
+    </div> -->
+  </ng-container>
 
-<div class="form-group">
-  <label for="specialDefense">Special Defense:</label>
-  <input [(ngModel)]="baseSpecialDefense" id="specialDefense" class="form-control" type="number">
-</div>
+  <div class="result-container">
+    <p>Hp: {{hp}}</p>
+    <p>Attack: {{attack}}</p>
+    <p>Special Attack: {{specialAttack}}</p>
+    <p>Defense: {{defense}}</p>
+    <p>Special Defense: {{specialDefense}}</p>
+    <p>Speed: {{speed}}</p>
+    <p>Level : {{level}}</p>
+    <br/>
 
-<div class="form-group">
-  <label for="speed">Speed:</label>
-  <input [(ngModel)]="baseSpeed" id="speed" class="form-control" type="number">
-</div>
+    <p>Your roll will be: 1d20 + {{onSelectStat(selectedProperty)}} {{selectedValue}}</p>
+    <ng-container *ngIf="selectedProperty == 'attack' || selectedProperty == 'specialAttack'">
+      <div>
+        <p>You will deal {{damageValue}} damage normally, {{damageValue + 4}} on Crit</p>
+        <p>Doubly Ineffective: {{damageValue - 3}} damage, {{damageValue + 1 }} on Crit</p>
+        <p>Not Very Effective: {{damageValue - 2}} damage , {{damageValue + 2}} on Crit</p>
+        <p>Super Effective: {{damageValue + 4}} damage, {{damageValue + 8}} on Crit</p>
+        <p>Double Super Effective: {{damageValue + 6}} damage , {{damageValue + 10}} on Crit</p>
+        <p>{{modifierTooltip}}</p>
+      </div>
+    </ng-container>
+  </div>
 
-<button (click)="calculateStats()">Calculate</button>
 
-<div class="result-container">
-  <p>Result: {{hp}}</p>
-  <p>Attack: {{attack}}</p>
-  <p>Special Attack: {{specialAttack}}</p>
-  <p>Defense: {{defense}}</p>
-  <p>Special Defense: {{specialDefense}}</p>
-  <p>Speed: {{speed}}</p>
+  <div class="skill-calculator">
+    
+  </div>
 </div>
