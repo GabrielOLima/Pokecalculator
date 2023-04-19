@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { saveAs } from 'file-saver';
+import * as Papa from 'papaparse';
+
 
 @Component({
   selector: 'app-calculator',
@@ -12,6 +15,7 @@ export class CalculatorComponent {
   baseDefense = 0;
   baseSpecialDefense = 0;
   baseSpeed = 0;
+  name : string = ''
 
   hp: number = 0;
   attack: number = 0;
@@ -115,7 +119,7 @@ export class CalculatorComponent {
         this.calculateModifier(this.selectedModifier)
         break;
       case 'specialAttack':
-        this.selectedValue = this.specialDefense;
+        this.selectedValue = this.specialAttack;
         this.damageValue = this.selectedValue;
         this.calculateModifier(this.selectedModifier)
         break;
@@ -155,5 +159,58 @@ export class CalculatorComponent {
     this.speed = this.calculateStat(this.baseSpeed, 'attack');
     this.level = Math.floor(((this.hp - 20) / 2) + this.attack + this.specialAttack + this.defense + this.specialDefense + this.speed);
   }
-  
+
+  save() {
+    const data = [
+      this.name,
+      this.baseHP,
+      this.baseAttack,
+      this.baseSpecialAttack,
+      this.baseDefense,
+      this.baseSpecialDefense,
+      this.baseSpeed,
+      this.selectedProperty,
+      this.selectedModifier,
+      this.selectedValue,
+    ];
+    const csv = Papa.unparse([data]);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, 'pokemon-stats.csv');
+  }
+
+  load(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (reader.result !== null) {
+        const text = reader.result.toString();
+        const { data } = Papa.parse(text);
+        const [name, baseHP, baseAttack, baseSpecialAttack, baseDefense, baseSpecialDefense, baseSpeed, selectedProperty, selectedModifier, selectedValue] = data[0] as string[];
+        this.name = name;
+        this.baseHP = parseInt(baseHP);
+        this.baseAttack = parseInt(baseAttack);
+        this.baseSpecialAttack = parseInt(baseSpecialAttack);
+        this.baseDefense = parseInt(baseDefense);
+        this.baseSpecialDefense = parseInt(baseSpecialDefense);
+        this.baseSpeed = parseInt(baseSpeed);
+        this.selectedProperty = selectedProperty;
+        this.selectedModifier = selectedModifier;
+        this.selectedValue = parseInt(selectedValue);
+      }
+    };
+    reader.readAsText(file);
+
+  }
+
+  loadFromCSV() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.csv';
+    fileInput.hidden = true;
+    fileInput.addEventListener('change', (event) => {
+      this.load(event);
+    });
+    fileInput.click();
+  }
 }
+  

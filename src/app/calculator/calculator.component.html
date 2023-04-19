@@ -2,6 +2,10 @@
 
 <div class="main-calculator"> 
   <div class="form-group">
+    <label for="hp">Name:</label>
+    <input [(ngModel)]="name" id="hp" class="form-control" type="string">
+  </div>
+  <div class="form-group">
     <label for="hp">HP:</label>
     <input [(ngModel)]="baseHP" id="hp" class="form-control" type="number">
   </div>
@@ -51,6 +55,12 @@
     </div> -->
   </ng-container>
 
+  
+  <div>
+    <button (click)="save()">Save</button>
+    <button (click)="loadFromCSV()">Load from CSV</button>
+  </div>
+
   <div class="result-container">
     <p>Hp: {{hp}}</p>
     <p>Attack: {{attack}}</p>
@@ -75,7 +85,4 @@
   </div>
 
 
-  <div class="skill-calculator">
-    
-  </div>
 </div>
