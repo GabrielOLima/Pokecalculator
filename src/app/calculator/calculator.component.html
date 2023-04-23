@@ -14,13 +14,14 @@
     <input [(ngModel)]="baseAttack" id="attack" class="form-control" type="number">
   </div>
   <div class="form-group">
-    <label for="specialAttack">Special Attack:</label>
-    <input [(ngModel)]="baseSpecialAttack" id="specialAttack" class="form-control" type="number">
-  </div>
-  <div class="form-group">
     <label for="defense">Defense:</label>
     <input [(ngModel)]="baseDefense" id="defense" class="form-control" type="number">
   </div>
+  <div class="form-group">
+    <label for="specialAttack">Special Attack:</label>
+    <input [(ngModel)]="baseSpecialAttack" id="specialAttack" class="form-control" type="number">
+  </div>
+  
   <div class="form-group">
     <label for="specialDefense">Special Defense:</label>
     <input [(ngModel)]="baseSpecialDefense" id="specialDefense" class="form-control" type="number">
@@ -85,4 +86,27 @@
   </div>
 
 
+</div>
+
+<div class="form-group">
+  <label for="moveName">Move, Item or Ability Name:</label>
+  <input [(ngModel)]="newMoveName" id="moveName" class="form-control" type="string">
+</div>
+<div class="form-group">
+  <label for="moveType">Move Type (If it has a Type):</label>
+  <input [(ngModel)]="newMoveType" id="moveType" class="form-control" type="string">
+</div>
+<div class="form-group">
+  <label for="moveModifier">Move Modifier:</label>
+  <input [(ngModel)]="newMoveModifier" id="moveModifier" class="form-control" type="string">
+</div>
+<button (click)="addMove()">Add Move</button>
+
+<div>
+  <div *ngIf="storedMoves.length > 0">
+    <h2>Stored Moves</h2>
+    <ul>
+      <li *ngFor="let move of storedMoves">{{move.name}} - {{move.pokemonType}} - {{move.modifier}}</li>
+    </ul>
+  </div>
 </div>

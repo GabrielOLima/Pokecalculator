@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { saveAs } from 'file-saver';
 import * as Papa from 'papaparse';
-
+interface Move {
+  name: string;
+  pokemonType: string;
+  modifier: string;
+}
 
 @Component({
   selector: 'app-calculator',
@@ -16,6 +20,9 @@ export class CalculatorComponent {
   baseSpecialDefense = 0;
   baseSpeed = 0;
   name : string = ''
+  newMoveName: string = '';
+  newMoveType: string = '';
+  newMoveModifier: string = '';
 
   hp: number = 0;
   attack: number = 0;
@@ -26,10 +33,9 @@ export class CalculatorComponent {
   level: number = 0;
   selectedValue : number = 0;
   damageValue: number = 0;
-  effectiveness = ['Normal', 'Not Effective', 'Double Not Effective', 'Super Effective', 'Double']
+  storedMoves: Move[] = [];
   properties = ['hp', 'attack', 'specialAttack', 'defense', 'specialDefense', 'speed'];
   modifiers = ['No Modifier', 'Autocrit', 'Exploit Status', 'Disable'];
-  selectedEffectiveness = '';
   selectedProperty = '';
   selectedModifier = 'No Modifier';
   modifierTooltip = '';
@@ -51,7 +57,13 @@ export class CalculatorComponent {
         multiplier = 0;
         break;
     }
-    return Math.floor((input / 10) * multiplier);
+    if(this.baseAttack + this.baseDefense + this.baseHP + this.baseSpeed + this.specialAttack + this.specialDefense > 600){
+      console.log('This was rounded down')
+      return Math.floor((input / 10) * multiplier);
+    } else {
+      console.log('This was rounded up')
+      return Math.ceil((input / 10) * multiplier); 
+    } 
   }
 
   calculateModifier(modifier: string) {
@@ -69,7 +81,7 @@ export class CalculatorComponent {
       case 'Disable':
         this.calculateStats;
         this.damageValue = 0
-        this.modifierTooltip = "This move will do no damage, but a target will lose the use of one of the last Prepared Moves if hit. This overwrites the prior effect of any other Disabling of the target's Moves."
+        this.modifierTooltip = "Deals no damage, but the target loses the use of the last Prepared Move they used. This overwrites the prior effect of any other Disabling of the target's Moves."
         break;
       case 'No Modifier':
       default:
@@ -160,46 +172,38 @@ export class CalculatorComponent {
     this.level = Math.floor(((this.hp - 20) / 2) + this.attack + this.specialAttack + this.defense + this.specialDefense + this.speed);
   }
 
-  save() {
-    const data = [
-      this.name,
-      this.baseHP,
-      this.baseAttack,
-      this.baseSpecialAttack,
-      this.baseDefense,
-      this.baseSpecialDefense,
-      this.baseSpeed,
-      this.selectedProperty,
-      this.selectedModifier,
-      this.selectedValue,
-    ];
-    const csv = Papa.unparse([data]);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-    saveAs(blob, 'pokemon-stats.csv');
+  addMove() {
+    const newMove: Move = {
+      name: this.newMoveName,
+      pokemonType: this.newMoveType,
+      modifier: this.newMoveModifier
+    };
+
+    this.storedMoves.push(newMove);
+
+    // Reset form inputs after adding move
+    this.newMoveName = '';
+    this.newMoveType = '';
+    this.newMoveModifier = '';
   }
 
-  load(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (reader.result !== null) {
-        const text = reader.result.toString();
-        const { data } = Papa.parse(text);
-        const [name, baseHP, baseAttack, baseSpecialAttack, baseDefense, baseSpecialDefense, baseSpeed, selectedProperty, selectedModifier, selectedValue] = data[0] as string[];
-        this.name = name;
-        this.baseHP = parseInt(baseHP);
-        this.baseAttack = parseInt(baseAttack);
-        this.baseSpecialAttack = parseInt(baseSpecialAttack);
-        this.baseDefense = parseInt(baseDefense);
-        this.baseSpecialDefense = parseInt(baseSpecialDefense);
-        this.baseSpeed = parseInt(baseSpeed);
-        this.selectedProperty = selectedProperty;
-        this.selectedModifier = selectedModifier;
-        this.selectedValue = parseInt(selectedValue);
-      }
-    };
-    reader.readAsText(file);
-
+  save() {
+  const data = [
+    this.name,
+    this.baseHP,
+    this.baseAttack,
+    this.baseSpecialAttack,
+    this.baseDefense,
+    this.baseSpecialDefense,
+    this.baseSpeed,
+    this.selectedProperty,
+    this.selectedModifier,
+    this.selectedValue,
+    JSON.stringify(this.storedMoves), // Store stringified array
+  ];
+  const csv = Papa.unparse([data]);
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  saveAs(blob, 'pokemon-stats.csv');
   }
 
   loadFromCSV() {
@@ -211,6 +215,30 @@ export class CalculatorComponent {
       this.load(event);
     });
     fileInput.click();
+  }
+
+  load(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (reader.result !== null) {
+        const text = reader.result.toString();
+        const { data } = Papa.parse(text);
+        const [name, baseHP, baseAttack, baseSpecialAttack, baseDefense, baseSpecialDefense, baseSpeed, selectedProperty, selectedModifier, selectedValue, storedMoves] = data[0] as string[];
+        this.name = name;
+        this.baseHP = parseInt(baseHP);
+        this.baseAttack = parseInt(baseAttack);
+        this.baseSpecialAttack = parseInt(baseSpecialAttack);
+        this.baseDefense = parseInt(baseDefense);
+        this.baseSpecialDefense = parseInt(baseSpecialDefense);
+        this.baseSpeed = parseInt(baseSpeed);
+        this.selectedProperty = selectedProperty;
+        this.selectedModifier = selectedModifier;
+        this.selectedValue = parseInt(selectedValue);
+        this.storedMoves = JSON.parse(storedMoves); // Parse stored moves data back into an array
+      }
+    };
+    reader.readAsText(file);
   }
 }
   
