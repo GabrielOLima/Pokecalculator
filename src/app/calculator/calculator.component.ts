@@ -13,6 +13,7 @@ interface Move {
   styleUrls: ['./calculator.component.css']
 })
 export class CalculatorComponent {
+  [key: string]: any;
   baseHP = 0;
   baseAttack = 0;
   baseSpecialAttack = 0;
@@ -40,6 +41,93 @@ export class CalculatorComponent {
   selectedModifier = 'No Modifier';
   modifierTooltip = '';
 
+
+  //Soft Skills
+  selectedNature = '';
+  pokemonNatures = [
+    'Adamant',
+    'Bashful',
+    'Bold',
+    'Brave',
+    'Calm',
+    'Careful',
+    'Docile',
+    'Gentle',
+    'Hardy',
+    'Hasty',
+    'Impish',
+    'Jolly',
+    'Lax',
+    'Lonely',
+    'Mild',
+    'Modest',
+    'Naive',
+    'Naughty',
+    'Quiet',
+    'Quirky',
+    'Rash',
+    'Relaxed',
+    'Sassy',
+    'Serious',
+    'Timid'
+  ];
+  coolValue: number = 0;
+  toughValue: number = 0;
+  beautifulValue: number = 0;
+  smartValue : number = 0;
+  cuteValue: number = 0;
+
+  increment(property: string) {
+    this[property]++;
+  }
+  
+  decrement(property: string) {
+    this[property]--;
+  }
+
+  calculateSoftStat(attack: number, defense: number, speed: number, specialAttack: number, specialDefense: number) {
+    const stats = [
+      this.attack,
+      this.defense,
+      this.speed,
+      this.specialAttack,
+      this.specialDefense
+    ];
+    stats.sort((a, b) => b - a);
+
+    if (attack === stats[0] || attack  === stats[1] || attack  === stats[2]) {
+      this.coolValue = 6;
+    } else {
+      this.coolValue = 0;
+    }
+    
+    if (defense === stats[0] || defense === stats[1] || defense === stats[2]) {
+      this.toughValue = 6;
+    } else {
+      this.toughValue = 0;
+    }
+    
+    if (specialAttack === stats[0] || specialAttack === stats[1] || specialAttack === stats[2]) {
+      this.beautifulValue = 6;
+    } else {
+      this.beautifulValue = 0;
+    }
+    
+    if (specialDefense === stats[0] || specialDefense === stats[1] || specialDefense === stats[2]) {
+      this.smartValue = 6;
+    } else {
+      this.smartValue = 0;
+    }
+    
+    if (speed === stats[0] || speed === stats[1] || speed === stats[2]) {
+      this.cuteValue = 6;
+    } else {
+      this.cuteValue = 0;
+    }
+    this.calculateNature(this.selectedNature)
+    console.log(`The three highest stats are: ${stats[0]}, ${stats[1]}, ${stats[2]}`);
+  }
+
   calculateStat(input: number, property: string): number {
     let multiplier: number;
     switch (property) {
@@ -63,7 +151,117 @@ export class CalculatorComponent {
     } else {
       console.log('This was rounded up')
       return Math.ceil((input / 10) * multiplier); 
-    } 
+    }
+
+  }
+
+  calculateNature(nature: string){
+    switch(nature) {
+      case 'Hardy':
+        this.coolValue -= 2
+        this.coolValue += 4
+        break;
+      case 'Docile':
+        this.toughValue -= 2
+        this.toughValue += 4
+        break;
+      case 'Bashful':
+        this.beautifulValue -= 2
+        this.beautifulValue += 4
+        break;
+      case 'Quirky':
+        this.smartValue -= 2
+        this.smartValue += 4
+        break;
+      case 'Serious':
+        this.cuteValue -= 2
+        this.cuteValue += 4
+        break;
+      case 'Bold':
+        this.coolValue -= 2
+        this.toughValue += 4
+        break;
+      case 'Modest':
+        this.coolValue -= 2
+        this.beautifulValue += 4
+        break;
+      case 'Calm':
+        this.coolValue -= 2
+        this.smartValue += 4
+        break;
+      case 'Timid':
+        this.coolValue -= 2
+        this.cuteValue += 4
+        break;
+      case 'Lonely':
+        this.toughValue -= 2
+        this.coolValue += 4
+        break;
+      case 'Lonely':
+        this.toughValue -= 2
+        this.coolValue += 4
+        break;
+      case 'Mild':
+        this.toughValue -= 2
+        this.beautifulValue += 4
+        break;
+      case 'Gentle':
+        this.toughValue -= 2
+        this.smartValue += 4
+        break;
+      case 'Hasty':
+        this.toughValue -= 2
+        this.cuteValue += 4
+        break;
+      case 'Adamant':
+        this.beautifulValue -= 2
+        this.coolValue += 4
+        break;
+      case 'Impish':
+        this.beautifulValue -= 2
+        this.toughValue += 4
+        break;
+      case 'Careful':
+        this.beautifulValue -= 2
+        this.smartValue += 4
+        break;
+      case 'Jolly':
+        this.beautifulValue -= 2
+        this.cuteValue += 4
+        break;
+      case 'Naughty':
+        this.smartValue -= 2
+        this.coolValue += 4
+        break;
+      case 'Lax':
+        this.smartValue -= 2
+        this.toughValue += 4
+        break;
+      case 'Rash':
+        this.smartValue -= 2
+        this.beautifulValue += 4
+        break;
+      case 'Naive':
+        this.smartValue -= 2
+        this.cuteValue += 4
+        break;
+      case 'Brave':
+        this.cuteValue -= 2
+        this.coolValue += 4
+        break; 
+      case 'Relaxed':
+        this.cuteValue -= 2
+        this.toughValue += 4
+        break;
+      case 'Quiet':
+        this.cuteValue -= 2
+        this.beautifulValue += 4
+        break;
+      case 'Sassy':
+        this.cuteValue -= 2
+        this.smartValue += 4
+        break;   
+    }
   }
 
   calculateModifier(modifier: string) {
@@ -91,31 +289,7 @@ export class CalculatorComponent {
     }
   }
 
-  // calculateEffectiveness(effectiveness: string) {
-  //   switch(effectiveness) {
-  //     case 'Normal':
-  //       this.calculateStats;
-  //       break;
-  //     case 'Not Effective':
-  //       this.calculateStats;
-  //       this.damageValue -= 2
-  //       if(this.damageValue < 0){
-  //         this.damageValue = 0
-  //       }
-  //       break;
-  //     case 'Double Not Effective':
-  //       this.calculateStats;
-  //       this.damageValue -= 3;
-  //       if(this.damageValue < 0){
-  //         this.damageValue = 0
-  //       }
-  //       break;
-  //     case 'No Modifier':
-  //     default:
-  //       this.calculateStats;
-  //       break;
-  //   }
-  // }
+
 
   onSelectStat(stat: string,): void {
     switch (stat) {
@@ -170,6 +344,7 @@ export class CalculatorComponent {
     this.specialDefense = this.calculateStat(this.baseSpecialDefense, 'attack');
     this.speed = this.calculateStat(this.baseSpeed, 'attack');
     this.level = Math.floor(((this.hp - 20) / 2) + this.attack + this.specialAttack + this.defense + this.specialDefense + this.speed);
+    this.calculateSoftStat(this.attack, this.defense, this.speed, this.specialAttack, this.specialDefense);
   }
 
   addMove() {
@@ -187,23 +362,40 @@ export class CalculatorComponent {
     this.newMoveModifier = '';
   }
 
+  removeMove(index: number) {
+    this.storedMoves.splice(index, 1);
+  }
+
   save() {
-  const data = [
-    this.name,
-    this.baseHP,
-    this.baseAttack,
-    this.baseSpecialAttack,
-    this.baseDefense,
-    this.baseSpecialDefense,
-    this.baseSpeed,
-    this.selectedProperty,
-    this.selectedModifier,
-    this.selectedValue,
-    JSON.stringify(this.storedMoves), // Store stringified array
-  ];
-  const csv = Papa.unparse([data]);
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-  saveAs(blob, 'pokemon-stats.csv');
+    const data = [
+      this.name,
+      this.baseHP,
+      this.hp,
+      this.level,
+      this.baseAttack,
+      this.baseSpecialAttack,
+      this.baseDefense,
+      this.baseSpecialDefense,
+      this.baseSpeed,
+      this.selectedProperty,
+      this.selectedModifier,
+      this.selectedValue,
+      this.coolValue,
+      this.toughValue,
+      this.beautifulValue,
+      this.smartValue,
+      this.cuteValue,
+      this.selectedNature,
+      this.attack,
+      this.specialAttack,
+      this.defense,
+      this.specialDefense,
+      this.speed,
+      JSON.stringify(this.storedMoves), // Store stringified array
+    ];
+    const csv = Papa.unparse([data]);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, 'pokemon-stats.csv');
   }
 
   loadFromCSV() {
@@ -216,7 +408,7 @@ export class CalculatorComponent {
     });
     fileInput.click();
   }
-
+  
   load(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -224,9 +416,36 @@ export class CalculatorComponent {
       if (reader.result !== null) {
         const text = reader.result.toString();
         const { data } = Papa.parse(text);
-        const [name, baseHP, baseAttack, baseSpecialAttack, baseDefense, baseSpecialDefense, baseSpeed, selectedProperty, selectedModifier, selectedValue, storedMoves] = data[0] as string[];
+        const [
+          name,
+          baseHP,
+          hp,
+          level,
+          baseAttack,
+          baseSpecialAttack,
+          baseDefense,
+          baseSpecialDefense,
+          baseSpeed,
+          selectedProperty,
+          selectedModifier,
+          selectedValue,
+          coolValue,
+          toughValue,
+          beautifulValue,
+          smartValue,
+          cuteValue,
+          selectedNature,
+          attack,
+          specialAttack,
+          defense,
+          specialDefense,
+          speed,
+          storedMoves
+        ] = data[0] as string[];
         this.name = name;
         this.baseHP = parseInt(baseHP);
+        this.hp = parseInt(hp);
+        this.level = parseInt(level);
         this.baseAttack = parseInt(baseAttack);
         this.baseSpecialAttack = parseInt(baseSpecialAttack);
         this.baseDefense = parseInt(baseDefense);
@@ -235,10 +454,21 @@ export class CalculatorComponent {
         this.selectedProperty = selectedProperty;
         this.selectedModifier = selectedModifier;
         this.selectedValue = parseInt(selectedValue);
+        this.coolValue = parseInt(coolValue);
+        this.toughValue = parseInt(toughValue);
+        this.beautifulValue = parseInt(beautifulValue);
+        this.smartValue = parseInt(smartValue);
+        this.cuteValue = parseInt(cuteValue);
+        this.selectedNature = selectedNature;
+        this.attack = parseInt(attack);
+        this.specialAttack = parseInt(specialAttack);
+        this.defense = parseInt(defense);
+        this.specialDefense = parseInt(specialDefense);
+        this.speed = parseInt(speed);
         this.storedMoves = JSON.parse(storedMoves); // Parse stored moves data back into an array
       }
     };
     reader.readAsText(file);
-  }
+  }  
 }
   

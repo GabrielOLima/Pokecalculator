@@ -30,6 +30,12 @@
     <label for="speed">Speed:</label>
     <input [(ngModel)]="baseSpeed" id="speed" class="form-control" type="number">
   </div>
+  <div class="form-group">
+    <label for="property">Select a nature:</label>
+    <select [(ngModel)]="selectedNature" id="property" class="form-control">
+      <option *ngFor="let nature of pokemonNatures" [value]="nature">{{nature}}</option>
+    </select>
+  </div>
 
   <button (click)="calculateStats()">Calculate</button>
 
@@ -63,13 +69,13 @@
   </div>
 
   <div class="result-container">
-    <p>Hp: {{hp}}</p>
-    <p>Attack: {{attack}}</p>
-    <p>Special Attack: {{specialAttack}}</p>
-    <p>Defense: {{defense}}</p>
-    <p>Special Defense: {{specialDefense}}</p>
-    <p>Speed: {{speed}}</p>
-    <p>Level : {{level}}</p>
+    <p>Hp: {{hp}} <button (click)="increment('hp')">+</button> <button (click)="decrement('hp')">-</button></p>
+    <p>Attack: {{attack}} <button (click)="increment('attack')">+</button> <button (click)="decrement('attack')">-</button></p>
+    <p>Special Attack: {{specialAttack}} <button (click)="increment('specialAttack')">+</button> <button (click)="decrement('specialAttack')">-</button></p>
+    <p>Defense: {{defense}} <button (click)="increment('defense')">+</button> <button (click)="decrement('defense')">-</button></p>
+    <p>Special Defense: {{specialDefense}} <button (click)="increment('specialDefense')">+</button> <button (click)="decrement('specialDefense')">-</button></p>
+    <p>Speed: {{speed}} <button (click)="increment('speed')">+</button> <button (click)="decrement('speed')">-</button></p>
+    <p>Level: {{level}} <button (click)="increment('level')">+</button> <button (click)="decrement('level')">-</button></p>
     <br/>
 
     <p>Your roll will be: 1d20 + {{onSelectStat(selectedProperty)}} {{selectedValue}}</p>
@@ -106,7 +112,46 @@
   <div *ngIf="storedMoves.length > 0">
     <h2>Stored Moves</h2>
     <ul>
-      <li *ngFor="let move of storedMoves">{{move.name}} - {{move.pokemonType}} - {{move.modifier}}</li>
+      <li *ngFor="let move of storedMoves; let i = index">
+        {{move.name}} - {{move.pokemonType}} - {{move.modifier}}
+        <button (click)="removeMove(i)">Remove</button>
+      </li>
     </ul>
   </div>
+</div>
+
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="soft-skills">
+  <div class="form-group">
+    <label for="moveName">Cool Value:</label>
+    <input [(ngModel)]="coolValue" id="moveName" class="form-control" type="string">
+    <button (click)="increment('coolValue')">+</button> <button (click)="decrement('coolValue')">-</button>
+  </div>
+  <div class="form-group">
+    <label for="moveName">Tough Value:</label>
+    <input [(ngModel)]="toughValue" id="moveName" class="form-control" type="string">
+    <button (click)="increment('toughValue')">+</button> <button (click)="decrement('toughValue')">-</button>
+  </div>
+  <div class="form-group">
+    <label for="moveName">Beautiful Value:</label>
+    <input [(ngModel)]="beautifulValue" id="moveName" class="form-control" type="string">
+    <button (click)="increment('beautifulValue')">+</button> <button (click)="decrement('level')">-</button>
+  </div>
+  <div class="form-group">
+    <label for="moveName">Smart Value:</label>
+    <input [(ngModel)]="smartValue" id="moveName" class="form-control" type="string">
+    <button (click)="increment('smartValue')">+</button> <button (click)="decrement('smartValue')">-</button>
+  </div>
+  <div class="form-group">
+    <label for="moveName">Cute Value:</label>
+    <input [(ngModel)]="cuteValue" id="moveName" class="form-control" type="string">
+    <button (click)="increment('smartValue')">+</button> <button (click)="decrement('smartValue')">-</button>
+  </div>
+  <br />
+
 </div>
