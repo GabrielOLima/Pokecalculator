@@ -1,157 +1,178 @@
 <h2>Calculator</h2>
-
-<div class="main-calculator"> 
-  <div class="form-group">
-    <label for="hp">Name:</label>
-    <input [(ngModel)]="name" id="hp" class="form-control" type="string">
-  </div>
-  <div class="form-group">
-    <label for="hp">HP:</label>
-    <input [(ngModel)]="baseHP" id="hp" class="form-control" type="number">
-  </div>
-  <div class="form-group">
-    <label for="attack">Attack:</label>
-    <input [(ngModel)]="baseAttack" id="attack" class="form-control" type="number">
-  </div>
-  <div class="form-group">
-    <label for="defense">Defense:</label>
-    <input [(ngModel)]="baseDefense" id="defense" class="form-control" type="number">
-  </div>
-  <div class="form-group">
-    <label for="specialAttack">Special Attack:</label>
-    <input [(ngModel)]="baseSpecialAttack" id="specialAttack" class="form-control" type="number">
-  </div>
-  
-  <div class="form-group">
-    <label for="specialDefense">Special Defense:</label>
-    <input [(ngModel)]="baseSpecialDefense" id="specialDefense" class="form-control" type="number">
-  </div>
-  <div class="form-group">
-    <label for="speed">Speed:</label>
-    <input [(ngModel)]="baseSpeed" id="speed" class="form-control" type="number">
-  </div>
-  <div class="form-group">
-    <label for="property">Select a nature:</label>
-    <select [(ngModel)]="selectedNature" id="property" class="form-control">
-      <option *ngFor="let nature of pokemonNatures" [value]="nature">{{nature}}</option>
-    </select>
-  </div>
-
-  <button (click)="calculateStats()">Calculate</button>
-
-  <div class="form-group">
-    <label for="property">Select a property:</label>
-    <select [(ngModel)]="selectedProperty" id="property" class="form-control">
-      <option *ngFor="let property of properties" [value]="property">{{property}}</option>
-    </select>
-  </div>
-
-  
-  <ng-container *ngIf="selectedProperty == 'attack' || selectedProperty == 'specialAttack'">
+<div class="main-calculator">
+  <div class="form-grid">
     <div class="form-group">
-      <label for="property">Select a modifier:</label>
-      <select [(ngModel)]="selectedModifier" id="modifier" class="form-control">
-        <option *ngFor="let modifier of modifiers" [value]="modifier">{{modifier}}</option>
+      <label for="hp" style="color: #ff0000">Name:</label>
+      <input [(ngModel)]="name" id="hp" class="form-control" type="string">
+    </div>
+    <div class="form-group">
+      <label for="hp" style="color: #ff0000">HP:</label>
+      <input [(ngModel)]="baseHP" id="hp" class="form-control" type="number">
+    </div>
+    <div class="form-group">
+      <label for="attack" style="color: #f08030">Attack:</label>
+      <input [(ngModel)]="baseAttack" id="attack" class="form-control" type="number">
+    </div>
+    <div class="form-group">
+      <label for="defense" style="color: #f8d030">Defense:</label>
+      <input [(ngModel)]="baseDefense" id="defense" class="form-control" type="number">
+    </div>
+    <div class="form-group">
+      <label for="specialAttack" style="color: #6890f0">Special Attack:</label>
+      <input [(ngModel)]="baseSpecialAttack" id="specialAttack" class="form-control" type="number">
+    </div>
+
+    <div class="form-group">
+      <label for="specialDefense" style="color: #78c850">Special Defense:</label>
+      <input [(ngModel)]="baseSpecialDefense" id="specialDefense" class="form-control" type="number">
+    </div>
+    <div class="form-group">
+      <label for="speed" style="color: #f85888">Speed:</label>
+      <input [(ngModel)]="baseSpeed" id="speed" class="form-control" type="number">
+    </div>
+    <div class="form-group">
+      <label for="property">Select a nature:</label>
+      <select [(ngModel)]="selectedNature" id="property" class="form-control">
+        <option *ngFor="let nature of pokemonNatures" [value]="nature">{{nature}}</option>
       </select>
     </div>
-    <!-- <div class="form-group">
+
+    <button (click)="calculateStats()">Calculate</button>
+
+    <div class="form-group">
+      <label for="property">Select a property:</label>
+      <select [(ngModel)]="selectedProperty" id="property" class="form-control">
+        <option *ngFor="let property of properties" [value]="property">{{property}}</option>
+      </select>
+    </div>
+
+    <ng-container *ngIf="selectedProperty == 'attack' || selectedProperty == 'specialAttack'">
+      <div class="form-group">
+        <label for="property">Select a modifier:</label>
+        <select [(ngModel)]="selectedModifier" id="modifier" class="form-control">
+          <option *ngFor="let modifier of modifiers" [value]="modifier">{{modifier}}</option>
+        </select>
+      </div>
+      <!-- <div class="form-group">
       <label for="property">Select the move's effectiveness:</label>
       <select [(ngModel)]="selectedEffectiveness" id="effectiveness" class="form-control">
         <option *ngFor="let effective of effectiveness" [value]="effective">{{effective}}</option>
       </select>
     </div> -->
-  </ng-container>
+    </ng-container>
+  </div>
 
-  
   <div>
     <button (click)="save()">Save</button>
     <button (click)="loadFromCSV()">Load from CSV</button>
   </div>
 
   <div class="result-container">
-    <p>Hp: {{hp}} <button (click)="increment('hp')">+</button> <button (click)="decrement('hp')">-</button></p>
-    <p>Attack: {{attack}} <button (click)="increment('attack')">+</button> <button (click)="decrement('attack')">-</button></p>
-    <p>Special Attack: {{specialAttack}} <button (click)="increment('specialAttack')">+</button> <button (click)="decrement('specialAttack')">-</button></p>
-    <p>Defense: {{defense}} <button (click)="increment('defense')">+</button> <button (click)="decrement('defense')">-</button></p>
-    <p>Special Defense: {{specialDefense}} <button (click)="increment('specialDefense')">+</button> <button (click)="decrement('specialDefense')">-</button></p>
-    <p>Speed: {{speed}} <button (click)="increment('speed')">+</button> <button (click)="decrement('speed')">-</button></p>
-    <p>Level: {{level}} <button (click)="increment('level')">+</button> <button (click)="decrement('level')">-</button></p>
-    <br/>
+    <div class="result-grid">
+      <p>
+        <span style="color: #ff0000">Hp:</span> <span style="color: #ff5959">{{ hp }}</span>
+        <button (click)="increment('hp')">+</button> <button (click)="decrement('hp')">-</button>
+      </p>
+      <p>
+        <span style="color: #f08030">Attack:</span> <span style="color: #f5ac78">{{ attack }}</span>
+        <button (click)="increment('attack')">+</button> <button (click)="decrement('attack')">-</button>
+      </p>
+      <p>
+        <span style="color: #f8d030">Defense:</span> <span style="color: #fae078">{{ defense }}</span>
+        <button (click)="increment('defense')">+</button> <button (click)="decrement('defense')">-</button>
+      </p>
+      <p>
+        <span style="color: #6890f0">Special Attack:</span> <span style="color: #9db7f5">{{ specialAttack }}</span>
+        <button (click)="increment('specialAttack')">+</button> <button (click)="decrement('specialAttack')">-</button>
+      </p>
+      <p>
+        <span style="color: #78c850">Special Defense:</span> <span style="color: #a7db8d">{{ specialDefense }}</span>
+        <button (click)="increment('specialDefense')">+</button> <button (click)="decrement('specialDefense')">-</button>
+      </p>
+      <p>
+        <span style="color: #f85888">Speed:</span> <span style="color: #fa92b2">{{ speed }}</span>
+        <button (click)="increment('speed')">+</button> <button (click)="decrement('speed')">-</button>
+      </p>
+      <p>
+        Level: {{ level }} <button (click)="increment('level')">+</button> <button (click)="decrement('level')">-</button>
+      </p>
+      <br />
 
-    <p>Your roll will be: 1d20 + {{onSelectStat(selectedProperty)}} {{selectedValue}}</p>
+      <p>Your roll will be: 1d20 + {{ onSelectStat(selectedProperty) }} {{ selectedValue }}</p>
+      <!-- Rest of the code... -->
+    </div>
+    <br />
+
+    <p>Your roll will be: 1d20 + {{ onSelectStat(selectedProperty) }} {{ selectedValue }}</p>
     <ng-container *ngIf="selectedProperty == 'attack' || selectedProperty == 'specialAttack'">
       <div>
-        <p>You will deal {{damageValue}} damage normally, {{damageValue + 4}} on Crit</p>
-        <p>Doubly Ineffective: {{damageValue - 3}} damage, {{damageValue + 1 }} on Crit</p>
-        <p>Not Very Effective: {{damageValue - 2}} damage , {{damageValue + 2}} on Crit</p>
-        <p>Super Effective: {{damageValue + 4}} damage, {{damageValue + 8}} on Crit</p>
-        <p>Double Super Effective: {{damageValue + 6}} damage , {{damageValue + 10}} on Crit</p>
-        <p>{{modifierTooltip}}</p>
+        <p>You will deal {{ damageValue }} damage normally, {{ damageValue + 4 }} on Crit</p>
+        <p>Doubly Ineffective: {{ damageValue - 3 }} damage, {{ damageValue + 1 }} on Crit</p>
+        <p>Not Very Effective: {{ damageValue - 2 }} damage, {{ damageValue + 2 }} on Crit</p>
+        <p>Super Effective: {{ damageValue + 4 }} damage, {{ damageValue + 8 }} on Crit</p>
+        <p>Double Super Effective: {{ damageValue + 6 }} damage, {{ damageValue + 10 }} on Crit</p>
+        <p>{{ modifierTooltip }}</p>
       </div>
     </ng-container>
   </div>
 
-
-</div>
-
-<div class="form-group">
-  <label for="moveName">Move, Item or Ability Name:</label>
-  <input [(ngModel)]="newMoveName" id="moveName" class="form-control" type="string">
-</div>
-<div class="form-group">
-  <label for="moveType">Move Type (If it has a Type):</label>
-  <input [(ngModel)]="newMoveType" id="moveType" class="form-control" type="string">
-</div>
-<div class="form-group">
-  <label for="moveModifier">Move Modifier:</label>
-  <input [(ngModel)]="newMoveModifier" id="moveModifier" class="form-control" type="string">
-</div>
-<button (click)="addMove()">Add Move</button>
-
-<div>
-  <div *ngIf="storedMoves.length > 0">
-    <h2>Stored Moves</h2>
-    <ul>
-      <li *ngFor="let move of storedMoves; let i = index">
-        {{move.name}} - {{move.pokemonType}} - {{move.modifier}}
-        <button (click)="removeMove(i)">Remove</button>
-      </li>
-    </ul>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="moveName">Move, Item or Ability Name:</label>
+      <input [(ngModel)]="newMoveName" id="moveName" class="form-control" type="string">
+    </div>
+    <div class="form-group">
+      <label for="moveType">Move Type (If it has a Type):</label>
+      <input [(ngModel)]="newMoveType" id="moveType" class="form-control" type="string">
+    </div>
+    <div class="form-group">
+      <label for="moveModifier">Move Modifier:</label>
+      <input [(ngModel)]="newMoveModifier" id="moveModifier" class="form-control" type="string">
+    </div>
+    <button (click)="addMove()">Add Move</button>
+    <br />
+    <br />
+    <br />
+    <div class="stored-moves-container">
+      <div *ngIf="storedMoves.length > 0">
+        <h2>Stored Moves</h2>
+        <ul>
+          <li *ngFor="let move of storedMoves; let i = index">
+            {{ move.name }} - {{ move.pokemonType }} - {{ move.modifier }}
+            <button (click)="removeMove(i)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
 
 
-<br />
-<br />
-<br />
-<br />
-
-<div class="soft-skills">
-  <div class="form-group">
-    <label for="moveName">Cool Value:</label>
-    <input [(ngModel)]="coolValue" id="moveName" class="form-control" type="string">
-    <button (click)="increment('coolValue')">+</button> <button (click)="decrement('coolValue')">-</button>
+  <div class="soft-skills form-grid">
+    <div class="form-group">
+      <label for="moveName">Cool Value:</label>
+      <input [(ngModel)]="coolValue" id="moveName" class="form-control" type="string">
+      <button (click)="increment('coolValue')">+</button> <button (click)="decrement('coolValue')">-</button>
+    </div>
+    <div class="form-group">
+      <label for="moveName">Tough Value:</label>
+      <input [(ngModel)]="toughValue" id="moveName" class="form-control" type="string">
+      <button (click)="increment('toughValue')">+</button> <button (click)="decrement('toughValue')">-</button>
+    </div>
+    <div class="form-group">
+      <label for="moveName">Beauty Value:</label>
+      <input [(ngModel)]="beautifulValue" id="moveName" class="form-control" type="string">
+      <button (click)="increment('beautifulValue')">+</button> <button (click)="decrement('beautifulValue')">-</button>
+    </div>
+    <div class="form-group">
+      <label for="moveName">Smart Value:</label>
+      <input [(ngModel)]="smartValue" id="moveName" class="form-control" type="string">
+      <button (click)="increment('smartValue')">+</button> <button (click)="decrement('smartValue')">-</button>
+    </div>
+    <div class="form-group">
+      <label for="moveName">Cute Value:</label>
+      <input [(ngModel)]="cuteValue" id="moveName" class="form-control" type="string">
+      <button (click)="increment('cuteValue')">+</button> <button (click)="decrement('cuteValue')">-</button>
+    </div>
+    <br />
   </div>
-  <div class="form-group">
-    <label for="moveName">Tough Value:</label>
-    <input [(ngModel)]="toughValue" id="moveName" class="form-control" type="string">
-    <button (click)="increment('toughValue')">+</button> <button (click)="decrement('toughValue')">-</button>
-  </div>
-  <div class="form-group">
-    <label for="moveName">Beauty Value:</label>
-    <input [(ngModel)]="beautifulValue" id="moveName" class="form-control" type="string">
-    <button (click)="increment('beautifulValue')">+</button> <button (click)="decrement('beautifulValue')">-</button>
-  </div>
-  <div class="form-group">
-    <label for="moveName">Smart Value:</label>
-    <input [(ngModel)]="smartValue" id="moveName" class="form-control" type="string">
-    <button (click)="increment('smartValue')">+</button> <button (click)="decrement('smartValue')">-</button>
-  </div>
-  <div class="form-group">
-    <label for="moveName">Cute Value:</label>
-    <input [(ngModel)]="cuteValue" id="moveName" class="form-control" type="string">
-    <button (click)="increment('cuteValue')">+</button> <button (click)="decrement('cuteValue')">-</button>
-  </div>
-  <br />
-
 </div>

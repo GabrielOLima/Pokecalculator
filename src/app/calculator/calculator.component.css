@@ -1,0 +1,192 @@
+/* Set the background color of the whole page to black */
+html {
+    background-color: black !important;
+  }
+  
+  /* Improve visibility by increasing font size and line height */
+  body {
+    color: white;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  /* Add a subtle shadow to the calculator container for depth */
+  .main-calculator {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+    /* Grid styles */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  
+  /* Style the buttons with a slightly lighter background */
+  button {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  /* Style the select dropdowns with a slightly lighter background */
+  .form-control {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+  
+  /* Add a subtle shadow to the soft skills container for depth */
+  .soft-skills {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+    /* Grid styles */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  
+  /* Improve visibility of the stored moves list */
+  ul {
+    list-style: none;
+    padding: 0;
+    color: white;
+  }
+  
+  /* Improve visibility of the form labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+  }
+  
+  /* Improve visibility of the form inputs */
+  input[type="number"],
+  input[type="string"] {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+  
+  /* Style the stored moves list items */
+  li {
+    margin: 5px 0;
+    color: white;
+  }
+  
+  /* Style the buttons inside the form group */
+  .form-group button {
+    margin-top: 5px;
+    background-color: #444;
+    color: white;
+  }
+  
+  /* Improve visibility of the result container */
+  .result-container {
+    margin-top: 20px;
+    color: white;
+  }
+  
+  /* Improve visibility of the save and load buttons */
+  button[data-testid="save-button"],
+  button[data-testid="load-button"] {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  /* Improve visibility of the result container */
+  .result-container {
+    margin-top: 20px;
+    color: white;
+  }
+  
+  /* Improve visibility of the move list and stored moves */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    margin: 5px 0;
+    color: white;
+  }
+  
+  /* Improve visibility of form groups */
+  .form-group label {
+    color: white;
+  }
+  
+  .form-group input[type="string"],
+  .form-group input[type="number"] {
+    background-color: #444;
+    color: white;
+  }
+  
+  .form-group button {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* Improve visibility of the stored moves list */
+  .stored-moves-container {
+    color: white;
+  
+    /* Grid styles */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .stored-moves-container h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .stored-moves-container ul {
+    list-style: none;
+    padding: 0;
+    width: auto;
+  }
+  
+  .stored-moves-container li {
+    margin: 5px 0;
+  }
+  
+  .stored-moves-container button {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* Set the background color of the soft-skills container to dark */
+  .soft-skills {
+    background-color: #333;
+  }
+  

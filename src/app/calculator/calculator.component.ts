@@ -85,47 +85,9 @@ export class CalculatorComponent {
     this[property]--;
   }
 
-  calculateSoftStat(attack: number, defense: number, speed: number, specialAttack: number, specialDefense: number) {
-    const stats = [
-      this.attack,
-      this.defense,
-      this.speed,
-      this.specialAttack,
-      this.specialDefense
-    ];
-    stats.sort((a, b) => b - a);
+  calculateSoftStat() {
 
-    if (attack === stats[0] || attack  === stats[1] || attack  === stats[2]) {
-      this.coolValue = 6;
-    } else {
-      this.coolValue = 0;
-    }
-    
-    if (defense === stats[0] || defense === stats[1] || defense === stats[2]) {
-      this.toughValue = 6;
-    } else {
-      this.toughValue = 0;
-    }
-    
-    if (specialAttack === stats[0] || specialAttack === stats[1] || specialAttack === stats[2]) {
-      this.beautifulValue = 6;
-    } else {
-      this.beautifulValue = 0;
-    }
-    
-    if (specialDefense === stats[0] || specialDefense === stats[1] || specialDefense === stats[2]) {
-      this.smartValue = 6;
-    } else {
-      this.smartValue = 0;
-    }
-    
-    if (speed === stats[0] || speed === stats[1] || speed === stats[2]) {
-      this.cuteValue = 6;
-    } else {
-      this.cuteValue = 0;
-    }
     this.calculateNature(this.selectedNature)
-    console.log(`The three highest stats are: ${stats[0]}, ${stats[1]}, ${stats[2]}`);
   }
 
   calculateStat(input: number, property: string): number {
@@ -145,7 +107,7 @@ export class CalculatorComponent {
         multiplier = 0;
         break;
     }
-    if(this.baseAttack + this.baseDefense + this.baseHP + this.baseSpeed + this.specialAttack + this.specialDefense > 600){
+    if(this.baseAttack + this.baseDefense + this.baseHP + this.baseSpeed + this.specialAttack + this.specialDefense >= 600){
       console.log('This was rounded down')
       return Math.floor((input / 10) * multiplier);
     } else {
@@ -344,7 +306,7 @@ export class CalculatorComponent {
     this.specialDefense = this.calculateStat(this.baseSpecialDefense, 'attack');
     this.speed = this.calculateStat(this.baseSpeed, 'attack');
     this.level = Math.floor(((this.hp - 20) / 2) + this.attack + this.specialAttack + this.defense + this.specialDefense + this.speed);
-    this.calculateSoftStat(this.attack, this.defense, this.speed, this.specialAttack, this.specialDefense);
+    this.calculateSoftStat();
   }
 
   addMove() {
